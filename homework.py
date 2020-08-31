@@ -17,26 +17,20 @@ class Calculator:
     def add_record(self, record):
         self.records.append(record)               
 
-    def summ_records(self, dates):
-        summ = 0        
-        for date in dates:            
-            for record in self.records:
-                if date == record.date:
-                    summ += record.amount               
-        return summ
-
     def get_today_stats(self):
-        current_day=dt.datetime.today().date()
-        return self.summ_records([current_day])
+        today_stats = 0
+        for record in self.records:
+            if dt.datetime.today().date() == record.date:
+                today_stats += record.amount
+        return today_stats
 
     def get_week_stats(self):          
-        week_days = []
-        for one_date in range(0, 6):
-            current_day = dt.datetime.today()
-            period = dt.timedelta(days=one_date)
-            week_day = current_day - period
-            week_days.append(week_day.date())
-        return self.summ_records(week_days)
+        week_stats = 0
+        week_ago = dt.datetime.today() - dt.timedelta(weeks=1)
+        for record in self.records:
+            if dt.datetime.today().date() >= record.date >= week_ago.date():
+                week_stats += record.amount
+        return week_stats
 
 class CashCalculator(Calculator):
     def __init__(self, limit):
