@@ -21,12 +21,12 @@ class Calculator:
         summ = 0        
         for date in dates:            
             for record in self.records:
-                if dt.datetime.strptime(date, '%d.%m.%Y').date() == record.date:
+                if date == record.date:
                     summ += record.amount               
         return summ
 
     def get_today_stats(self):
-        current_day=dt.datetime.today().strftime('%d.%m.%Y')
+        current_day=dt.datetime.today().date()
         return self.summ_records([current_day])
 
     def get_week_stats(self):          
@@ -35,7 +35,7 @@ class Calculator:
             current_day = dt.datetime.today()
             period = dt.timedelta(days=one_date)
             week_day = current_day - period
-            week_days.append(week_day.strftime('%d.%m.%Y'))
+            week_days.append(week_day.date())
         return self.summ_records(week_days)
 
 class CashCalculator(Calculator):
